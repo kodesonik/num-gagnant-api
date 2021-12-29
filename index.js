@@ -43,7 +43,8 @@ app.post('/generate', (req, res)=> {
     
 }) 
 
+const port = process.env.PORT || 80
 
-app.listen(process.env.PORT || 3000,()=>{
+app.listen(port,()=>{
  console.log("starting...")
 })
