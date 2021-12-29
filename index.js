@@ -21,25 +21,29 @@ app.get('/', (req, res)=> {
 
 app.post('/generate', (req, res)=> {
     const date = new Date()
-    const today = date.getFullYear()+'/'+(date.getMonth() + 1) + '/' + date.getDate()
+    if (date.getDay()) {
+        const today = date.getFullYear()+'/'+(date.getMonth() + 1) + '/' + date.getDate()
 
-    admin.firestore().collection('numeros').where('date', '==', today).get().then(
-        res => {
-            if (res.docs.length === 0) {
-                //  generate num
-                const result = getRandomNumberBetween(0, 90, 10)
-                console.log(result)
-                // save num
-            
-                const doc = date.getTime()
-                admin.firestore().collection('numeros').doc(doc.toString()).set({ result, date: today })
-                res.send(result)
-            } else {
-                console.log('already exist!')
+        admin.firestore().collection('numeros').where('date', '==', today).get().then(
+            ref => {
+                if (ref.docs.length === 0) {
+                    //  generate num
+                    const result = getRandomNumberBetween(0, 90, 10)
+                    console.log(result)
+                    // save num
+                
+                    const doc = date.getTime()
+                    admin.firestore().collection('numeros').doc(doc.toString()).set({ result, date: today })
+                    res.send({ message: 'make with success!!!'})
+                } else {
+                   res.send({ message: 'already exist!'})
+                }
             }
-        }
-    )
+        )
 
+    } else {
+        res.send('Today is sunday!')
+    }
     
 }) 
 
