@@ -16,7 +16,7 @@ admin.initializeApp({
 app.use(cors())
 
 app.get('/', (req, res)=> {
-  res.send('Hello World')
+  res.send('Your api is working...')
 }) 
 
 app.post('/generate', (req, res)=> {
@@ -33,7 +33,8 @@ app.post('/generate', (req, res)=> {
                     // save num
                 
                     const doc = date.getTime()
-                    admin.firestore().collection('numeros').doc(doc.toString()).set({ result, date: today })
+                    const createdAt = admin.firestore.FieldValue.serverTimestamp()
+                    admin.firestore().collection('numeros').doc(doc.toString()).set({ result, date: today, createdAt })
                     res.send({ message: 'make with success!!!'})
                 } else {
                    res.send({ message: 'already exist!'})
