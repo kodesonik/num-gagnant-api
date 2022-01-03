@@ -28,7 +28,7 @@ app.post('/generate', (req, res)=> {
             ref => {
                 if (ref.docs.length === 0) {
                     //  generate num
-                    const result = getRandomNumberBetween(0, 90, 10)
+                    const result = getRandomNumberBetween(1, 90, 10)
                     console.log(result)
                     // save num
                 
